@@ -9,6 +9,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding3.view.RxView;
+import com.jakewharton.rxbinding3.widget.RxTextView;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import kotlin.Unit;
+
+/**
+ *     implementation "io.reactivex.rxjava2:rxjava:2.2.10"
+ *     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+ *
+ *     implementation 'com.jakewharton.rxbinding3:rxbinding:3.1.0'
+ */
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +64,23 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
+
+        Disposable disposable1 = RxTextView.textChanges(inputText)
+                .subscribe(new Consumer<CharSequence>() {
+                    @Override
+                    public void accept(CharSequence charSequence) throws Exception {
+                        viewText.setText(charSequence);
+                    }
+                });
+
+        Disposable disposable2 = RxView.clicks(clearButton)
+                .subscribe(new Consumer<Unit>() {
+                    @Override
+                    public void accept(Unit unit) throws Exception {
+                        inputText.setText("");
+                        viewText.setText("");
+                    }
+                });
 
     }
 }
